@@ -10,7 +10,8 @@ function processUserInput(chatApp, socket) {
 	var message = $('#send-message').val();
 	var systemMessage;
 
-	if (message.chatAt(0) == '/') {
+	// Identify the input as command or plain message
+	if (message.charAt(0) == '/') {
 		systemMessage = chatApp.processCommand(message);
 		if(systemMessage) {
 			$('#messages').append(divSystemConentElement(systemMessage));
@@ -41,7 +42,7 @@ $(document).ready(function(){
 	});
 	
 	socket.on('joinResult', function (result) {
-		$('#room'). text(result.room);
+		$('#room').text(result.room);
 		$('#messages').append(divSystemConentElement('Room changed'));		
 	});
 
@@ -59,6 +60,7 @@ $(document).ready(function(){
 				$('#room-list').append(divEscapedContentElement(room));
 			}
 		}
+
 		$('#room-list div').click(function() {
 			chatApp.processCommand('/join ' + $(this).text());
 			$('#send-message').focus();
@@ -66,7 +68,7 @@ $(document).ready(function(){
 	});
 
 	setInterval(function() {
-		socket.emit('room');
+		socket.emit('rooms');
 	}, 1000);
 
 	$('#send-message').focus();

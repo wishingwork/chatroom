@@ -1,7 +1,9 @@
+// Create a Chat object
 var Chat = function (socket) {
 	this.socket = socket;
 }
 
+// Create different prototype(property) of Chat object
 Chat.prototype.sendMessage = function(room, text) {
 	var message = {
 		room: room,
@@ -12,18 +14,18 @@ Chat.prototype.sendMessage = function(room, text) {
 
 Chat.prototype.changeRoom = function(room) {
 	this.socket.emit('join', {
-		newRoom = room
+		newRoom: room
 	});
 };
 
 Chat.prototype.processCommand = function(command) {
 	var words = command.split(' ');
 	var command = words[0]
-					.substrin(1, words[0].length)
+					.substring(1, words[0].length)
 					.toLowerCase();
 	var message = false;
 
-	swith(command) {
+	switch(command) {
 		case 'join':
 			words.shift();
 			var room = words.join(' ');
@@ -31,7 +33,7 @@ Chat.prototype.processCommand = function(command) {
 			break;
 		case 'nick':
 			words.shift();
-			var name = words.join('');
+			var name = words.join(' ');
 			this.socket.emit('nameAttempt', name);
 			break;
 		default:
